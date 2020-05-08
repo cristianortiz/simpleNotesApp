@@ -1,5 +1,6 @@
 const app = require("./server"); //importo app desde server.js
+require("./database");
 
-app.listen(app.get("port"), () => {
-  console.log("Server on PORT", app.get("port"));
+app.listen(app.get("PORT"), () => {
+  console.log("Server on PORT", app.get("PORT"));
 });
