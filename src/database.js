@@ -1,3 +1,4 @@
+//configuracion de la conexion mongo
 require("dotenv").config(); //accedemos a las variables de entorno
 const mongoose = require("mongoose");
 
