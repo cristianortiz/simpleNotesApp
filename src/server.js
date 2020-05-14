@@ -1,6 +1,7 @@
 const express = require("express");
 const hbs = require("express-handlebars"); //llamamos al modulo handlebars. motor de plantillas
 const path = require("path");
+const methodOver = require("method-override");
 
 //inicializando el servidor express
 const app = express();
@@ -24,6 +25,7 @@ app.set("view engine", ".hbs"); //se setea el motor de plantillas configurado pa
 
 //MIDDLEWARES---------------------------------------------------------------------------------------------------
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOver("_method"));
 
 //VARIABLES GLOBALES
 
