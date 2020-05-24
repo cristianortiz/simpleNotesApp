@@ -3,9 +3,9 @@ const bcrypt = require("bcrypt");
 
 const UserSchema = new Schema(
   {
-    name: { type: String, required },
-    email: { type: String, required },
-    password: { type: String, required },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
   },
   {
     timestaps: true,
@@ -18,7 +18,7 @@ UserSchema.methods.encryptPassword = async (password) => {
   return await bcrypt.hash(password, salt);
 };
 //uso function para poder usar this.. y asi comparar el campo password en bd con el que llega como parametro
-UserSchema.methods.matchPassword = function(password) {
-    return await bcrypt.compare(password,this.password)
+UserSchema.methods.matchPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
 };
 module.exports = model("User", UserSchema);
