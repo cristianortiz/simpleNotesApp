@@ -12,6 +12,8 @@ notesController.createNewNote = async (req, res) => {
 
   //notacion resumida de title:title,description:descrpcion
   const newNote = new Note({ title, description });
+  //guardamos id del usuario que crea la nota
+  newNote.user = req.user.id;
   await newNote.save(); //guardo la nueva nota en BD
   req.flash("success_msg", "Nota Agregada Correctamente"); //guarda el mensaje en el servidor
   res.redirect("/notes");
@@ -21,7 +23,9 @@ notesController.createNewNote = async (req, res) => {
 notesController.renderNotes = async (req, res) => {
   /*obtiene de bd todas las notas, con lean() se transforma el documento moongose retornado
    por find() en objeto plano de JS, evita errores de handlebars */
-  const notes = await Note.find().lean();
+  const notes = await Note.find({ user: req.user.id })
+    .sort({ createdAt: "desc" })
+    .lean();
   /* const notesContext = notes.map((note) => {
     return { title: note.title, description: note.description };
   }); */
@@ -33,6 +37,11 @@ notesController.renderNotes = async (req, res) => {
 //despliega formulario para editar una nota
 notesController.renderEditForm = async (req, res) => {
   const note = await Note.findById(req.params.id).lean();
+  //si el usuario intena ver notas de otro via url lo redirije a sus propias notas
+  if (note.user != req.user.id) {
+    req.flash("error_msg", "no autorizado");
+    return res.redirect("/notes");
+  }
   res.render("notes/edit-note", { note });
 };
 

@@ -47,7 +47,7 @@ app.use(flash());
 //VARIABLES GLOBALES
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg"); //mensaje de confirmacion via flash
-  res.locals.error_msg = req.flash("error_msg"); //mensaje de error via flash
+  res.locals.errors = req.flash("error_msg"); //mensaje de error via flash
   res.locals.error = req.flash("error"); //mensaje de error en el login de passport
   next();
 });

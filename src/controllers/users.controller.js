@@ -44,10 +44,10 @@ usersController.loginForm = (req, res) => {
 usersController.loginUser = passport.authenticate("local", {
   failureRedirect: "/users/login", //si el login falla se redirecciona al login form
   successRedirect: "/notes", //si el login es exitoso redirije al modulo de notas
-  failureFlash: true,
+  failureFlash: true, //habilita los mensajes de passport via flahs para mostrar al usuario
 });
 
 usersController.logout = (req, res) => {
-  res.send("login");
+  res.render("users/login");
 };
 module.exports = usersController;

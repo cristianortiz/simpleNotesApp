@@ -11,19 +11,21 @@ const {
   deleteNote,
 } = require("../controllers/notes.controller");
 
+const { isAuthenticated } = require("../helpers/auth");
+
 //ruta para desplegar un form para agregar una nota, llama al metodo renderNoteForm de /controllers/notes.controller
-router.get("/notes/add", renderNoteForm);
+router.get("/notes/add", isAuthenticated, renderNoteForm);
 
-router.post("/notes/new-note", createNewNote); //ruta que procesa el formulario de nueva nota
+router.post("/notes/new-note", isAuthenticated, createNewNote); //ruta que procesa el formulario de nueva nota
 
-router.get("/notes", renderNotes); //lista todas las notas
+router.get("/notes", isAuthenticated, renderNotes); //lista todas las notas
 
-router.get("/notes/edit/:id", renderEditForm); //renderiza formulario para edita nota con su id
+router.get("/notes/edit/:id", isAuthenticated, renderEditForm); //renderiza formulario para edita nota con su id
 
-router.put("/notes/edit/:id", updateNote); //procesa el formulario y actualiza la nota, usa metodo put
+router.put("/notes/edit/:id", isAuthenticated, updateNote); //procesa el formulario y actualiza la nota, usa metodo put
 //router.post("notes/edit/:id", );
 
-router.delete("/notes/delete/:id", deleteNote); //elimuna una nota usa metodo delete
+router.delete("/notes/delete/:id", isAuthenticated, deleteNote); //elimuna una nota usa metodo delete
 //router.post("notes/delete/:id", );
 
 module.exports = router;
